@@ -1,21 +1,20 @@
-# .github/workflows/infra-cicd-dev.yml
-name: Infrastructure CI/CD
+name: tf-infra-cicd-dev
 
+# Controls when the workflow will run
 on:
+  # Triggers the workflow on push or pull request events but only for the "main" branch
   pull_request:
     branches: [ "main" ]
-    paths: 
-      - 'terraform/**'
+
+  # Allows you to run this workflow manually from the Actions tab
   workflow_dispatch:
 
 jobs:
-  terraform-plan-apply:
+  terraform-validate-plan-apply:
     runs-on: windows-latest
     defaults:
       run:
         working-directory: terraform
-    permissions:
-      issues: write
 
     steps:
       - name: Checkout repository
@@ -42,17 +41,7 @@ jobs:
         run: terraform validate -no-color
 
       - name: Terraform Plan
-        run: terraform plan -no-color --var-file='environments/dev.tfvars' -out=plan.tfout
-      
-      - name: Approval
-        uses: trstringer/manual-approval@v1
-        timeout-minutes: 60
-        with:
-          secret: ${{ github.token }}
-          approvers: geekzyn
-          issue-title: "Deploy Terraform Plan to dev"
-          issue-body: "Please review the Terraform Plan"
-          exclude-workflow-initiator-as-approver: false
+        run: terraform plan -no-color --var-file='environments/dev.tfvars'
 
       - name: Terraform Apply
-        run: terraform apply -auto-approve plan.tfout
+        run: terraform apply --var-file='environments/dev.tfvars' -auto-approve
