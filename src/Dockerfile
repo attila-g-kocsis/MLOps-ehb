@@ -23,5 +23,6 @@ RUN pip install --no-cache-dir -r requirements.txt
 # if you want to train the model locally
 RUN python main.py
 
+
 # Run the FastAPI application using uvicorn server
 CMD ["uvicorn", "app:app", "--host", "0.0.0.0", "--port", "80"]
