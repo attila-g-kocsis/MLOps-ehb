@@ -43,7 +43,9 @@ jobs:
         run: terraform validate -no-color
         
       - name: Terraform Plan
-        run: terraform plan -no-color -out=plan.tfout -var="region=eu-west-1" -var="env=dev"
+        env:
+          TF_VAR_env: dev
+        run: terraform plan -no-color -out=plan.tfout
 
       - name: Terraform Apply
         if: github.event_name == 'push' || github.event_name == 'workflow_dispatch'
