@@ -1,28 +1,30 @@
-name: Infrastructure CI/CD
+name: Terraform Infra CI/CD Dev
 
-# Controls when the workflow will run
 on:
-  # Triggers the workflow on push or pull request events but only for the "main" branch
   pull_request:
     branches: [ "main" ]
-    paths: 
+    paths:
       - 'terraform/**'
 
-  # Allows you to run this workflow manually from the Actions tab
+  push:
+    branches: [ "main" ]
+    paths:
+      - 'terraform/**'
+
   workflow_dispatch:
 
 jobs:
-  terraform-plan-apply:
+  terraform:
     runs-on: ubuntu-latest
     defaults:
       run:
         working-directory: terraform
-    permissions:
-      issues: write
 
     steps:
       - name: Checkout repository
         uses: actions/checkout@v4
+        with:
+          fetch-depth: 0        
 
       - name: Setup Terraform
         uses: hashicorp/setup-terraform@v3
@@ -34,28 +36,17 @@ jobs:
           aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
           aws-region: eu-west-1
 
-      - name: Terraform Format
-        run: terraform fmt -check
-        continue-on-error: true
-
       - name: Terraform Init
         run: terraform init --backend-config='backends/dev.conf'
 
       - name: Terraform Validate
         run: terraform validate -no-color
-
+        
       - name: Terraform Plan
-        run: terraform plan -no-color --var-file='environments/dev.tfvars' -out=plan.tfout
-      
-      - name: Approval
-        uses: trstringer/manual-approval@v1
-        timeout-minutes: 60
-        with:
-          secret: ${{ github.token }}
-          approvers: attila-g-kocsis
-          issue-title: "Deploy Terraform Plan to dev"
-          issue-body: "Please review the Terraform Plan"
-          exclude-workflow-initiator-as-approver: false
+        env:
+          TF_VAR_env: dev
+        run: terraform plan -no-color -out=plan.tfout
 
       - name: Terraform Apply
+        if: github.event_name == 'push' || github.event_name == 'workflow_dispatch'
         run: terraform apply -auto-approve plan.tfout
