@@ -3,11 +3,7 @@ name: Terraform Infra CI/CD Dev
 on:
   pull_request:
     branches: [ "main" ]
-    paths:
-      - 'terraform/**'
-
-  push:
-    branches: [ "main" ]
+    #runs only if changes are made in terraform
     paths:
       - 'terraform/**'
 
