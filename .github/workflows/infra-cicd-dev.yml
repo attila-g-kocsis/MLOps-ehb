@@ -41,15 +41,9 @@ jobs:
 
       - name: Terraform Validate
         run: terraform validate -no-color
-
-      - name: Debug file system
-        run: |
-          pwd
-          ls -R terraform/environments
-          find . -name dev.tfvars
         
       - name: Terraform Plan
-        run: terraform plan -no-color --var-file='environments/dev.tfvars' -out=plan.tfout
+        run: terraform plan -no-color -out=plan.tfout -var="region=eu-west-1" -var="env=dev"
 
       - name: Terraform Apply
         if: github.event_name == 'push' || github.event_name == 'workflow_dispatch'
