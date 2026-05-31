@@ -43,10 +43,7 @@ jobs:
         run: terraform validate -no-color
         
       - name: Terraform Plan
-        env:
-          TF_VAR_env: dev
-        run: terraform plan -no-color -out=plan.tfout
+        run: terraform plan -no-color --var-file='environments/dev.tfvars'
 
       - name: Terraform Apply
-        if: github.event_name == 'push' || github.event_name == 'workflow_dispatch'
-        run: terraform apply -auto-approve plan.tfout
+        run: terraform apply --var-file='environments/dev.tfvars' -auto-approve
