@@ -19,3 +19,16 @@ ecr_repositories = [
     tags = {}
   }
 ]
+
+ecs_services = [
+  {
+    key            = "mlops-course-ehb"
+    ecr_repository = "mlops-course-ehb-ecr-repository-ako"
+    image_tag      = "latest"
+    container_port = 80
+    cpu            = 256
+    memory         = 512
+    desired_count  = 1
+    tags           = {}
+  }
+]

@@ -26,3 +26,9 @@ variable "ecr_repositories" {
   type        = list(any)
   default     = []
 }
+
+variable "ecs_services" {
+  description = "A list of ECS Fargate services"
+  type        = list(any)
+  default     = []
+}
