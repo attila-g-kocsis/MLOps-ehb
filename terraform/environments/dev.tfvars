@@ -22,7 +22,7 @@ ecr_repositories = [
 
 ecs_services = [
   {
-    key            = "mlops-course-ehb"
+    key            = "mlops-course-ehb-ecs-service-ako"
     ecr_repository = "mlops-course-ehb-ecr-repository-ako"
     image_tag      = "latest"
     container_port = 80
