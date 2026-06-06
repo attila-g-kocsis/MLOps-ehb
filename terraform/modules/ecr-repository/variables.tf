@@ -6,13 +6,13 @@ variable "name" {
 variable "prefix" {
   description = "Resource name prefix."
   type        = string
-  default     = "ecr"
+  default     = ""
 }
 
 variable "delimiter" {
   description = "Resource name delimiter."
   type        = string
-  default     = "-"
+  default     = ""
 }
 
 variable "tags" {
