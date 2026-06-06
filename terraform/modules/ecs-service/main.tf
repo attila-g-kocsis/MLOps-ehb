@@ -78,7 +78,7 @@ resource "aws_ecs_task_definition" "this" {
       protocol      = "tcp"
     }]
 
-    #adding aws logging 
+    # adding aws logging 
     logConfiguration = {
       logDriver = "awslogs"
       options = {
@@ -92,6 +92,7 @@ resource "aws_ecs_task_definition" "this" {
   tags = var.tags
 }
 
+# adding cloudWatch log group
 resource "aws_cloudwatch_log_group" "this" {
   name              = "/ecs/${var.name}"
   retention_in_days = 7
