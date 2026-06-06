@@ -11,7 +11,7 @@ s3_buckets = [
 
 ecr_repositories = [
   {
-    key                  = "ecr-mlops-course-ehb-ako"
+    key                  = "mlops-course-ehb-ako"
     image_tag_mutability = "MUTABLE"
     image_scanning_configuration = {
       scan_on_push = true
