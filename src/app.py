@@ -9,8 +9,11 @@ from uuid import uuid4
 
 app = FastAPI()
 # add logging
+logging.basicConfig(
+    level=logging.INFO,
+    format="%(message)s"
+)
 logger = logging.getLogger("predictions")
-logger.setLevel(logging.INFO)
 
 class InputData(BaseModel):
     Gender: str
