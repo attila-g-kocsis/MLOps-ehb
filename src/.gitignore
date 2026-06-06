@@ -3,6 +3,12 @@ __pycache__/
 *.py[cod]
 *$py.class
 
+#mlflow runs
+mlruns/
+main_noMLflow*
+mlflow-local-run*
+CURL*
+
 # C extensions
 *.so
 
