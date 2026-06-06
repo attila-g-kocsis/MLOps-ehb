@@ -1,33 +1,25 @@
 variable "name" {
-  description = "Resource name suffix."
+  description = "(Required) Name of the ECR repository."
   type        = string
 }
 
-variable "prefix" {
-  description = "Resource name prefix."
+variable "image_tag_mutability" {
+  description = "(Optional) The tag mutability setting for the repository. Must be one of: MUTABLE or IMMUTABLE."
   type        = string
-  default     = ""
+  default     = "MUTABLE"
 }
 
-variable "delimiter" {
-  description = "Resource name delimiter."
-  type        = string
-  default     = ""
+variable "image_scanning_configuration" {
+  description = "(Optional) Configuration block that defines image scanning configuration for the repository."
+  type = object({
+    scan_on_push = bool
+  })
+  default = {
+    scan_on_push = true
+  }
 }
 
 variable "tags" {
   type        = map(string)
   description = "Map of tags to attach to resource."
-}
-
-variable "image_tag_mutability" {
-  type        = string
-  description = "The tag mutability setting for the repository."
-  default     = "MUTABLE"
-}
-
-variable "image_scanning_configuration" {
-  type        = map(string)
-  description = "Configuration block that defines image scanning configuration for the repository."
-  default     = {}
 }
