@@ -77,9 +77,24 @@ resource "aws_ecs_task_definition" "this" {
       hostPort      = var.container_port
       protocol      = "tcp"
     }]
+
+    #adding aws logging 
+    logConfiguration = {
+      logDriver = "awslogs"
+      options = {
+        awslogs-group         = "/ecs/${var.name}"
+        awslogs-region        = "eu-west-1"
+        awslogs-stream-prefix = "ecs"
+      }
+    }
   }])
 
   tags = var.tags
+}
+
+resource "aws_cloudwatch_log_group" "this" {
+  name              = "/ecs/${var.name}"
+  retention_in_days = 7
 }
 
 resource "aws_ecs_service" "this" {
