@@ -12,16 +12,16 @@ COPY models/ ./models/
 COPY requirements.txt .
 
 # if you want to train the model locally
-COPY main.py .
-COPY config.yml .
-COPY data/ ./data/
-COPY pipelines/ ./pipelines/
+# COPY main.py .
+# COPY config.yml .
+# COPY data/ ./data/
+# COPY pipelines/ ./pipelines/
 
 # Install the Python dependencies
 RUN pip install --no-cache-dir -r requirements.txt
 
 # if you want to train the model locally
-RUN python main.py
+# RUN python main.py
 
 
 # Run the FastAPI application using uvicorn server
