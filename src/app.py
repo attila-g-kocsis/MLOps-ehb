@@ -27,39 +27,21 @@ model = joblib.load('models/model.pkl')
 async def root():
     return {"health_check": "OK"}
 
-
 @app.post("/predict")
 async def predict(input_data: InputData):
-
-    print("=== PREDICT CALLED ===")
-
-    df = pd.DataFrame(
-        [input_data.model_dump().values()],
-        columns=input_data.model_dump().keys()
-    )
-
-    pred = int(model.predict(df)[0])
-
-    print(f"=== PREDICTION: {pred} ===")
-
-    return {"predicted_class": pred}
-
-
-#@app.post("/predict")
-#async def predict(input_data: InputData):
     
-#        df = pd.DataFrame([input_data.model_dump().values()], 
-#                          columns=input_data.model_dump().keys())
-#        pred = int(model.predict(df)[0])
+        df = pd.DataFrame([input_data.model_dump().values()], 
+                          columns=input_data.model_dump().keys())
+        pred = int(model.predict(df)[0])
 
-#        logger.info(
-#            json.dumps({
-#                "event": "prediction",
-#                "request_id": str(uuid4()),
-#                "timestamp": datetime.utcnow().isoformat(),
-#                "features": input_data.model_dump(),
-#                "prediction": pred
-#            })
-#        )
+        logger.info(
+            json.dumps({
+                "event": "prediction",
+                "request_id": str(uuid4()),
+                "timestamp": datetime.utcnow().isoformat(),
+                "features": input_data.model_dump(),
+                "prediction": pred
+            })
+        )
 
-#        return {"predicted_class": pred}
+        return {"predicted_class": pred}
